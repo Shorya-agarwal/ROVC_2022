@@ -1,0 +1,20 @@
+Step .1 ---Enable the camera interface 
+	sudo rapi-config
+	interface options
+	enable camera
+
+Step .2 ---Installing libraries
+echo Y |sudo apt-get install libopenjp2-7-dev
+echo Y | sudo apt-get install libhdf5-dev
+echo Y |sudo apt-get install libqtgui4 libqtwebkit4 libqt4-test
+echo Y | sudo apt-get install libatlas-base-dev
+echo Y | sudo apt-get install libjasper-dev
+echo Y | sudo apt-get install python3-pip
+echo Y | sudo apt-get install python3-h5py
+echo Y | sudo apt-get install python3-opencv
+echo Y | sudo pip3 install flask
+pip install pillow
+
+#More dependencies to install according to your environment (Raspberry -pi)
+
+Opencv , Numpy, pigpio
