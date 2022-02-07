@@ -9,3 +9,4 @@
  
  if you wanna run only thrusters and not the camers part , comment the code accodingly and skip installing all the dependencies you can know by seeing which you want and which you don't
  
+iF i add anything or modify anything i'll commit it for sure in future
