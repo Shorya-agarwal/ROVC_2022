@@ -10,7 +10,7 @@ app = Tk()
 # Set the size of the window
 app.geometry("990x850")
 
-# Create thvalue[0] Label to capture the Video frames
+# Create a Label to capture the Video frames
 label =Label(app )
 # label.place(relwidth=1, relheight=0.45, rely=0.03)
 label.place(x  = 25 , y = 5 , height= 450 , width= 900)
