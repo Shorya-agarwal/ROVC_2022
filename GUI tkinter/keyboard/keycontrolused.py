@@ -1,3 +1,4 @@
+from decimal import Rounded
 from tkinter import *
 from PIL import Image, ImageTk
 import cv2
@@ -6,7 +7,8 @@ import pigpio
 
 # Create an instance of TKinter Window or frame
 app = Tk()
-
+# app.configure(bg='#F5FF90')
+app.title("ROVC-team HUSTLERS")
 width = app.winfo_screenwidth()
 height = app.winfo_screenheight()
 # Set the size of the window
@@ -40,10 +42,10 @@ thruster_four = 27  #Enter the PIN Number to Which Thrsuter 4 is coonected
 
 thruster_pins = [thruster_one, thruster_two, thruster_three, thruster_four]
 
-pi = pigpio.pi()
+# pi = pigpio.pi()
 
-for item in thruster_pins:
-    pi.set_servo_pulsewidth(item,1500)
+# for item in thruster_pins:
+#      pi.set_servo_pulsewidth(item,1500)
 
 
 
@@ -53,8 +55,8 @@ def forward(eve):
    if thvalue[0] < 1850 and thvalue[1]<1850:
       thvalue[0] = thvalue[0] + 10
       thvalue[1] = thvalue[1] + 10
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
 
    if thvalue[0] > 1500 and thvalue[1] > 1500:
       result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with " + \
@@ -85,8 +87,8 @@ def backward(eve):
    if thvalue[0] > 1150 and thvalue[1] > 1150:
       thvalue[0] = thvalue[0] - 10
       thvalue[1] = thvalue[1] - 10
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
 
    if thvalue[0] > 1500 and thvalue[1] > 1500:
       result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with " + \
@@ -116,8 +118,8 @@ def down(eve):
    if thvalue[2] <= 1800 and thvalue[2]>1200:
       thvalue[2] = thvalue[2] - 10
       thvalue[3] = thvalue[3] - 10
-      pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-      pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+      # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+      # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
 
    if thvalue[2] > 1500:
       result_str = "Rov is going up with " + str(abs(1500-thvalue[2])) + " unit speed"
@@ -137,8 +139,8 @@ def upward(eve):
    if thvalue[2]>=1200 and thvalue[2]<1800:
       thvalue[2] = thvalue[2] + 10
       thvalue[3] = thvalue[3] + 10
-      pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-      pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+      # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+      # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
 
    if thvalue[2] > 1500:
       result_str = "Rov is going up with " + str(abs(1500-thvalue[2])) + " unit speed"
@@ -158,22 +160,27 @@ def left(eve):
    if thvalue[0] > 1500:
       thvalue[0] = thvalue[0] - 50
       thvalue[1] = thvalue[1] + 50
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning left and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning left and speed of thruster 1 is " + \
+          str(abs(1500-thvalue[0])) + \
+          " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
 
    elif thvalue[0] == 1500:
       thvalue[1] = thvalue[1] + 10
       # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Left Thruster is Stopped and Rov is turning left\n and speed of right thruster is " + \
+      result_str = "Left Thruster is Stopped and Rov is turning left" + \
+         "and speed of right thruster is " + \
          str(abs(1500-thvalue[1])) + " unit"
 
    else:
       thvalue[0] = thvalue[0] + 10
       thvalue[1] = thvalue[1] - 10
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning right and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning right and speed of thruster 1 is " + \
+         str(abs(1500-thvalue[0])) + \
+          " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
 
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
@@ -188,21 +195,24 @@ def right(eve):
    if thvalue[1] > 1500:
       thvalue[1] = thvalue[1] - 50
       thvalue[0] = thvalue[0] + 50
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning right and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning right and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + \
+          " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
 
    elif thvalue[1] == 1500:
       thvalue[0] = thvalue[0] + 10
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      result_str = "right Thruster is Stopped and Rov is turning right\n and speed of left thruster is " + str(abs(1500-thvalue[0])) + " unit"
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      result_str = "right Thruster is Stopped and Rov is turning right\n and speed of left thruster is " + \
+          str(abs(1500-thvalue[0])) + " unit"
 
    else:
       thvalue[0] = thvalue[0] - 50
       thvalue[1] = thvalue[1] + 50
-      pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning left and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
+      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning left and speed of thruster 1 is " + str(abs(1500-thvalue[0])) +  \
+         " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
    if thvalue[2]<1500:
@@ -217,10 +227,10 @@ def reset(eve):
    thvalue[1] = 1500
    thvalue[2] = 1500
    thvalue[3] = 1500
-   pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-   pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-   pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-   pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+   # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+   # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
    result_str = "ROV IS AT REST"
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
@@ -232,24 +242,42 @@ result = "Rov is not in Motion \nAll The thrusters aare in Idle State"
 
 e =0
 
-button_forward = Button(app, text="↑" , padx=40, pady=20 , command = lambda : forward(e)).place(x = 160 , y= 510)
-button_backward = Button(app, text="↓" , padx=40, pady=20,command = lambda : backward(e)).place(x=160,y=575 )
-button_left = Button(app, text="←" , padx=40, pady=20 ,command = lambda : left(e)).place(x=50, y=575 )
-button_right = Button(app, text="→" , padx=40, pady=20,command = lambda : right(e)).place(y =575, x = 270  )
-button_up = Button(app, text="UP" , padx=40, pady=20,command = lambda : upward(e)).place(x = 380,  y= 510 )
-button_down = Button(app, text="Down" , padx=40, pady=20,command = lambda : down(e)).place(x = 380 , y= 575 ) 
-button_reset = Button(app, text="RESET" , padx=40, pady=20 , command = lambda : reset(e)).place(x = 100, y  = 680)
+left_bImage = PhotoImage(file='left.png')
+right_bImage = PhotoImage(file='right.png')
+up_bImage = PhotoImage(file='up.png')
+down_bImage = PhotoImage(file='down.png')
+Vup_bImage = PhotoImage(file='Vup.png')
+Vdown_bImage = PhotoImage(file='Vdown.png')
+reset_bimage = PhotoImage(file='reset.png')
+
+logo = ImageTk.PhotoImage(Image.open("logo.png"))
+
+lb1 = Label(app,image=logo , borderwidth=0)
+lb1.image = logo #keep a reference to it
+# lb1.pack()
+
+lb1.place(x=1080, y=80)
+
+button_forward =Button(app, image=up_bImage , padx=40, pady=20 , command = lambda : forward(e), borderwidth=0).place(x = 210 , y= 410)
+button_backward = Button(app, image=down_bImage , padx=40, pady=20,command = lambda : backward(e), borderwidth=0).place(x=210,y=505 )
+button_left = Button(app, image=left_bImage , padx=40, pady=20 ,command = lambda : left(e), borderwidth=0).place(x=100, y=505 )
+button_right = Button(app, image=right_bImage , padx=40, pady=20,command = lambda : right(e), borderwidth=0).place(y =505, x = 320  )
+button_up = Button(app, image = Vup_bImage, padx=40, pady=20,command = lambda : upward(e), borderwidth=0).place(x = 430,  y= 410 )
+button_down = Button(app, image = Vdown_bImage , padx=40, pady=20,command = lambda : down(e), borderwidth=0).place(x = 430 , y= 505 ) 
+button_reset = Button(app, image = reset_bimage, padx=40, pady=20 , command = lambda : reset(e), borderwidth=0).place(x = 200, y  = 605)
 
 
+team_name = Label(app, text="TEAM HUSTLERS" , font=(('comic sans ms'), 72), borderwidth=0)
+team_name.place(x = 50, y= 225)
 
 
-app.bind('<Key-Up>',forward)
+app.bind('<Key-Up>',backward)
 # app.bind('<KeyRelease-Up>',reset)
-app.bind('<Key-Left>',left)
+app.bind('<Key-Left>',right)
 # app.bind('<KeyRelease-Left>',reset)
-app.bind('<Key-Down>',backward)
+app.bind('<Key-Down>',forward)
 # app.bind('<KeyRelease-Down>',reset)
-app.bind('<Key-Right>',right)
+app.bind('<Key-Right>',left)
 # app.bind('<KeyRelease-Right>',reset)
 app.bind('<Key-c>',down)
 # app.bind('<KeyRelease-c>',reset)
@@ -260,7 +288,7 @@ app.bind('<Return>', reset)
 
 
 
-ele = Text(app, width=65, height = 5 ,borderwidth=5)
-ele.place(relwidth=0.42 , relheight=0.25 , relx=0.54, rely = 0.63)
+ele = Text(app ,bg="#4146DA",foreground="white",font=(('monospace'), 28), borderwidth=5 )
+ele.place(relwidth=0.43 , relheight=0.32 , relx=0.48, rely = 0.55)
 ele.insert(INSERT, result)
 app.mainloop()
