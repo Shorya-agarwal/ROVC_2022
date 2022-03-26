@@ -1,8 +1,5 @@
-from decimal import Rounded
 from tkinter import *
 from PIL import Image, ImageTk
-import cv2
-import time
 import pigpio
 
 # Create an instance of TKinter Window or frame
@@ -45,7 +42,7 @@ thruster_pins = [thruster_one, thruster_two, thruster_three, thruster_four]
 # pi = pigpio.pi()
 
 # for item in thruster_pins:
-#      pi.set_servo_pulsewidth(item,1500)
+     #pi.set_servo_pulsewidth(item,1500)
 
 
 
@@ -55,14 +52,14 @@ def forward(eve):
    if thvalue[0] < 1850 and thvalue[1]<1850:
       thvalue[0] = thvalue[0] + 10
       thvalue[1] = thvalue[1] + 10
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
 
    if thvalue[0] > 1500 and thvalue[1] > 1500:
-      result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with " + \
-      str(abs(1500-thvalue[0])) +  " unit speed \n" + \
-            "Thruster 2 is moving forward with " + \
-               str(abs(1500-thvalue[1])) + " unit speed"
+      result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with   " + \
+      str(abs(1500-thvalue[0])) + "  unit speed \n" + \
+            "Thruster 2 is moving forward with   " + \
+               str(abs(1500-thvalue[1])) + "  unit speed"
 
    elif thvalue[0] == 1500 and thvalue[1] == 1500:
       result_str = "ROV IS AT REST"
@@ -87,14 +84,14 @@ def backward(eve):
    if thvalue[0] > 1150 and thvalue[1] > 1150:
       thvalue[0] = thvalue[0] - 10
       thvalue[1] = thvalue[1] - 10
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
 
    if thvalue[0] > 1500 and thvalue[1] > 1500:
-      result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with " + \
-      str(abs(1500-thvalue[0])) + " unit speed \n" + \
-            "Thruster 2 is moving forward with " + \
-               str(abs(1500-thvalue[1])) + " unit speed"
+      result_str = "ROV IS IN MOTION \n" + "Thruster 1 is moving forward with   " + \
+      str(abs(1500-thvalue[0])) + "  unit speed \n" + \
+            "Thruster 2 is moving forward with   " + \
+               str(abs(1500-thvalue[1])) + "  unit speed"
 
    elif thvalue[0] == 1500 and thvalue[1] == 1500:
       result_str = "ROV IS AT REST"
@@ -118,8 +115,8 @@ def down(eve):
    if thvalue[2] <= 1800 and thvalue[2]>1200:
       thvalue[2] = thvalue[2] - 10
       thvalue[3] = thvalue[3] - 10
-      # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-      # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+      #pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+      #pi.set_servo_pulsewidth(thruster_four, thvalue[3])
 
    if thvalue[2] > 1500:
       result_str = "Rov is going up with " + str(abs(1500-thvalue[2])) + " unit speed"
@@ -139,8 +136,8 @@ def upward(eve):
    if thvalue[2]>=1200 and thvalue[2]<1800:
       thvalue[2] = thvalue[2] + 10
       thvalue[3] = thvalue[3] + 10
-      # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-      # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+      #pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+      #pi.set_servo_pulsewidth(thruster_four, thvalue[3])
 
    if thvalue[2] > 1500:
       result_str = "Rov is going up with " + str(abs(1500-thvalue[2])) + " unit speed"
@@ -152,32 +149,41 @@ def upward(eve):
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
    if thvalue[0]!=1500 or thvalue[1] != 1500:
-      more_str =  "\n ROV Is also in Horizontal Forward Motion " + \
+      more_str =  "\nROV Is also in Horizontal Forward       Motion " + \
           "You can Press Enter to Stop It "
       ele.insert(INSERT, more_str)
 
 def left(eve):
+   result_str = "Reaches Maximun Speed"
+   thva = int(thvalue[0]/50)
+   thva = thva*50
+   thvalue[0] = thva
+   thvb = int(thvalue[1]/50)
+   thvb = thvb*50
+   thvalue[1] = thvb
+   # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
    if thvalue[0] > 1500:
       thvalue[0] = thvalue[0] - 50
       thvalue[1] = thvalue[1] + 50
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
       result_str = "Rov is turning left and speed of thruster 1 is " + \
           str(abs(1500-thvalue[0])) + \
           " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
 
-   elif thvalue[0] == 1500:
-      thvalue[1] = thvalue[1] + 10
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Left Thruster is Stopped and Rov is turning left" + \
-         "and speed of right thruster is " + \
+   elif thvalue[0] == 1500 and thvalue[1]<1800:
+      thvalue[1] = thvalue[1] + 50
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Left Thruster is Stopped and Rov is       turning left" + \
+         " and speed of right thruster is " + \
          str(abs(1500-thvalue[1])) + " unit"
 
-   else:
-      thvalue[0] = thvalue[0] + 10
-      thvalue[1] = thvalue[1] - 10
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   elif thvalue[0] < 1500:
+      thvalue[0] = thvalue[0] + 50
+      thvalue[1] = thvalue[1] - 50
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
       result_str = "Rov is turning right and speed of thruster 1 is " + \
          str(abs(1500-thvalue[0])) + \
           " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
@@ -192,26 +198,37 @@ def left(eve):
       ele.insert(INSERT, more_str)
 
 def right(eve):
-   if thvalue[1] > 1500:
-      thvalue[1] = thvalue[1] - 50
+   result_str = "Reaches Maximun Speed"
+   thva = int(thvalue[0]/50)
+   thva = thva*50
+   thvalue[0] = thva
+   thvb = int(thvalue[1]/50)
+   thvb = thvb*50
+   thvalue[1] = thvb
+   # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   if thvalue[1] > 1500 and thvalue[0]<1800:
       thvalue[0] = thvalue[0] + 50
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning right and speed of thruster 1 is " + str(abs(1500-thvalue[0])) + \
-          " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
+      thvalue[1] = thvalue[1] - 50
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning right and speed of\nthruster 1 is " + \
+         str(abs(1500-thvalue[0])) + \
+          " unit and thruster 2 is   " + str(abs(1500-thvalue[1])) + " unit"
 
-   elif thvalue[1] == 1500:
-      thvalue[0] = thvalue[0] + 10
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      result_str = "right Thruster is Stopped and Rov is turning right\n and speed of left thruster is " + \
+   elif thvalue[1] == 1500 and thvalue[0]<1800:
+      thvalue[0] = thvalue[0] + 50
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      result_str = "Right Thruster is Stopped and Rov is       turning right\nand speed of left thruster is " + \
           str(abs(1500-thvalue[0])) + " unit"
 
-   else:
+   elif thvalue[1] < 1500:
       thvalue[0] = thvalue[0] - 50
       thvalue[1] = thvalue[1] + 50
-      # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-      # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-      result_str = "Rov is turning left and speed of thruster 1 is " + str(abs(1500-thvalue[0])) +  \
+      #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+      result_str = "Rov is turning left and speed of thruster 1 is " + \
+         str(abs(1500-thvalue[0])) +  \
          " unit and thruster 2 is " + str(abs(1500-thvalue[1])) + " unit"
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
@@ -227,18 +244,56 @@ def reset(eve):
    thvalue[1] = 1500
    thvalue[2] = 1500
    thvalue[3] = 1500
-   # pi.set_servo_pulsewidth(thruster_one, thvalue[0])
-   # pi.set_servo_pulsewidth(thruster_two, thvalue[1])
-   # pi.set_servo_pulsewidth(thruster_three, thvalue[2])
-   # pi.set_servo_pulsewidth(thruster_four, thvalue[3])
+   #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   #pi.set_servo_pulsewidth(thruster_three, thvalue[2])
+   #pi.set_servo_pulsewidth(thruster_four, thvalue[3])
    result_str = "ROV IS AT REST"
    ele.delete("1.0","end")
    ele.insert(INSERT, result_str)
 
+def hreset(eve):
+   thvalue[0] = 1500
+   thvalue[1] = 1500
+   #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   result_str = "Horizontal Motion of Vehicle is Stopped"
+   ele.delete("1.0","end")
+   ele.insert(INSERT, result_str)   
 
 
+def lefte(eve):
+   result_str = "Reaches Maximun Speed"
+   thvalue[0] = 1500
+   thvalue[1] = 1500
+   #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   if thvalue[1]<1800:
+      thvalue[1] = thvalue[1]+50
+      result_str = "Left Thruster is Stopped and Rov is       turning left" + \
+         " and speed of right thruster is " + \
+         str(abs(1500-thvalue[1])) + " unit"
+       #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   ele.delete("1.0","end")
+   ele.insert(INSERT, result_str)
 
-result = "Rov is not in Motion \nAll The thrusters aare in Idle State"
+
+def righte(eve):
+   result_str = "Reaches Maximun Speed"
+   thvalue[0] = 1500
+   thvalue[1] = 1500
+   #pi.set_servo_pulsewidth(thruster_one, thvalue[0])
+   #pi.set_servo_pulsewidth(thruster_two, thvalue[1])
+   if thvalue[0]<1800:
+      thvalue[0] = thvalue[1]+50
+      result_str = "Right Thruster is Stopped and Rov is       turning right\nand speed of left thruster is " + \
+            str(abs(1500-thvalue[0])) + " unit"
+      #pi.set_servo_pulsewidth(thruster_two, thvalue[0])
+   ele.delete("1.0","end")
+   ele.insert(INSERT, result_str)
+
+
+result = "Rov is not in Motion \nAll The thrusters are in Idle State"
 
 e =0
 
@@ -248,7 +303,7 @@ up_bImage = PhotoImage(file='up.png')
 down_bImage = PhotoImage(file='down.png')
 Vup_bImage = PhotoImage(file='Vup.png')
 Vdown_bImage = PhotoImage(file='Vdown.png')
-reset_bimage = PhotoImage(file='reset.png')
+reset_bimage = PhotoImage(file='forbiddenr.png')
 
 logo = ImageTk.PhotoImage(Image.open("logo.png"))
 
@@ -264,31 +319,32 @@ button_left = Button(app, image=left_bImage , padx=40, pady=20 ,command = lambda
 button_right = Button(app, image=right_bImage , padx=40, pady=20,command = lambda : right(e), borderwidth=0).place(y =505, x = 320  )
 button_up = Button(app, image = Vup_bImage, padx=40, pady=20,command = lambda : upward(e), borderwidth=0).place(x = 430,  y= 410 )
 button_down = Button(app, image = Vdown_bImage , padx=40, pady=20,command = lambda : down(e), borderwidth=0).place(x = 430 , y= 505 ) 
-button_reset = Button(app, image = reset_bimage, padx=40, pady=20 , command = lambda : reset(e), borderwidth=0).place(x = 200, y  = 605)
+button_reset = Button(app, image = reset_bimage, padx=40, pady=20 , command = lambda : reset(e), borderwidth=0).place(x = 210, y  = 605)
 
 
-team_name = Label(app, text="TEAM HUSTLERS" , font=(('comic sans ms'), 72), borderwidth=0)
+team_name = Label(app, text="TEAM HUSTLERS" , font=(('sans serif'), 72), borderwidth=0)
 team_name.place(x = 50, y= 225)
 
 
-app.bind('<Key-Up>',backward)
+app.bind('<Key-Up>',forward)
 # app.bind('<KeyRelease-Up>',reset)
-app.bind('<Key-Left>',right)
+app.bind('<Key-Left>',left)
 # app.bind('<KeyRelease-Left>',reset)
-app.bind('<Key-Down>',forward)
+app.bind('<Key-Down>',backward)
 # app.bind('<KeyRelease-Down>',reset)
-app.bind('<Key-Right>',left)
+app.bind('<Key-Right>',right)
 # app.bind('<KeyRelease-Right>',reset)
 app.bind('<Key-c>',down)
 # app.bind('<KeyRelease-c>',reset)
 app.bind('<Key-e>',upward)
 # app.bind('<KeyRelease-e>',reset)
-app.bind('<Return>', reset)
+app.bind('<Key-q>', reset)
+app.bind('<Return>', hreset)
 
 
 
 
-ele = Text(app ,bg="#4146DA",foreground="white",font=(('monospace'), 28), borderwidth=5 )
-ele.place(relwidth=0.43 , relheight=0.32 , relx=0.48, rely = 0.55)
+ele = Text(app ,bg="#4146DA",foreground="white",font=(('Georgia 13 italic bold'), 28), relief='raised',borderwidth=3, padx= 10)
+ele.place(relwidth=0.44 , relheight=0.35 , relx=0.48, rely = 0.55)
 ele.insert(INSERT, result)
 app.mainloop()
